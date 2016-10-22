@@ -20,7 +20,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Plugins
 NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'neomake/neomake'
-NeoBundle 'Shougo/deoplete'
+NeoBundle 'Shougo/deoplete.nvim'
 NeoBundle 'racer-rust/vim-racer'
 NeoBundle 'alessandroyorba/despacio'
 NeoBundle 'tpope/vim-fugitive'
