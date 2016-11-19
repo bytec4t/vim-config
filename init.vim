@@ -24,6 +24,7 @@ NeoBundle 'Shougo/deoplete.nvim'
 NeoBundle 'racer-rust/vim-racer'
 NeoBundle 'alessandroyorba/despacio'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'justinmk/vim-sneak'
 
 
 call neobundle#end()
