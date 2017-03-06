@@ -25,6 +25,12 @@ NeoBundle 'racer-rust/vim-racer'
 NeoBundle 'alessandroyorba/despacio'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'justinmk/vim-sneak'
+NeoBundle 'tpope/vim-rails'
+NeoBundle 'vimwiki/vimwiki'
+NeoBundle 'christoomey/vim-tmux-navigator'
+NeoBundle 'elixir-lang/vim-elixir'
+NeoBundle 'slashmili/alchemist.vim'
+NeoBundle 'scrooloose/nerdtree'
 
 
 call neobundle#end()
@@ -33,11 +39,9 @@ filetype plugin indent on
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.ZZZZ
 NeoBundleCheck
-"End NeoBundle Scripts--------------------
 
 
-" Plugin Configurations-------------------
-
+""" Plugin Configurations
 " deoplete
 let g:deoplete#enable_at_startup=1
 
@@ -47,20 +51,27 @@ let g:racer_cmd="racer"
 let $RUST_SRC_PATH="/usr/src/rust/src"
 
 " colorscheme
-colorscheme despacio
+" colorscheme despacio
 
-" End Plugin Configuration----------------
+" vimwiki
+hi VimwikiHeader1 ctermfg=091
+hi VimwikiHeader2 ctermfg=203
+hi VimwikiHeader3 ctermfg=049
+hi VimwikiLink ctermfg=037
+hi VimwikiListTodo ctermfg=077
 
-
-" NeoVim Configuration--------------------
-
+""" NeoVim Configuration
 " Backup
 set nobackup
 set nowb
 set noswapfile
 
 " Column Coloring
-set cc=80
+highlight ColorColumn ctermbg=235
+let &colorcolumn="80"
+
+" Folding
+"set foldmethod=syntax
 
 " Keyboard Completion
 set complete=.,w,b,u,t
@@ -91,4 +102,14 @@ endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <S-Tab> <c-n>
 
-" End NeoVim Configuration----------------
+" Colors
+highlight Comment ctermfg=240
+syntax enable
+
+
+""" Key Remaps
+" Use Ctrl-* instead of Ctrl-w + * for split navigation
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
