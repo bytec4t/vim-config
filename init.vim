@@ -31,6 +31,8 @@ NeoBundle 'christoomey/vim-tmux-navigator'
 NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'slashmili/alchemist.vim'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'StanAngeloff/php.vim'
+NeoBundle 'cespare/vim-toml'
 
 
 call neobundle#end()
@@ -83,11 +85,19 @@ set relativenumber
 " Matching Brackets
 set showmatch
 
+" Searching
+set ignorecase
+set smartcase
+
 " Tab Behavior
 set expandtab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
+
+" for html and php use 2
+autocmd BufNewFile,BufRead *.html setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd BufNewFile,BufRead *.php setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
 " Tab completion
 set wildmode=list:longest,list:full
