@@ -33,6 +33,8 @@ NeoBundle 'slashmili/alchemist.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'StanAngeloff/php.vim'
 NeoBundle 'cespare/vim-toml'
+NeoBundle 'lervag/vimtex'
+NeoBundle 'vim-airline/vim-airline'
 
 
 call neobundle#end()
@@ -52,15 +54,15 @@ set hidden
 let g:racer_cmd="racer"
 let $RUST_SRC_PATH="/usr/src/rust/src"
 
-" colorscheme
-" colorscheme despacio
-
 " vimwiki
 hi VimwikiHeader1 ctermfg=091
 hi VimwikiHeader2 ctermfg=203
 hi VimwikiHeader3 ctermfg=049
 hi VimwikiLink ctermfg=037
 hi VimwikiListTodo ctermfg=077
+
+" airline
+let g:airline#extensions#tmuxline#enabled = 1
 
 """ NeoVim Configuration
 " Backup
@@ -113,7 +115,10 @@ inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <S-Tab> <c-n>
 
 " Colors
-highlight Comment ctermfg=240
+"set background=dark
+"highlight Comment ctermfg=240
+"highlight Statement ctermfg=130
+"highlight PreProc ctermfg=15
 syntax enable
 
 
