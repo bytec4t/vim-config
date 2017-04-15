@@ -17,91 +17,119 @@ endif
 call neobundle#begin(expand('$HOME/.config/nvim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" Plugins
-NeoBundle 'rust-lang/rust.vim'
-NeoBundle 'neomake/neomake'
-NeoBundle 'Shougo/deoplete.nvim'
-NeoBundle 'racer-rust/vim-racer'
-NeoBundle 'alessandroyorba/despacio'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'justinmk/vim-sneak'
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'vimwiki/vimwiki'
-NeoBundle 'christoomey/vim-tmux-navigator'
-NeoBundle 'elixir-lang/vim-elixir'
+" Plugins---------------------------------
+" elixir
 NeoBundle 'slashmili/alchemist.vim'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'StanAngeloff/php.vim'
+NeoBundle 'elixir-lang/vim-elixir'
+" elm
+NeoBundle 'ElmCast/elm-vim'
+" markup
 NeoBundle 'cespare/vim-toml'
 NeoBundle 'lervag/vimtex'
+" php
+NeoBundle 'StanAngeloff/php.vim'
+" rust
+NeoBundle 'rust-lang/rust.vim'
+NeoBundle 'racer-rust/vim-racer'
+" workflow
+NeoBundle 'Shougo/deoplete.nvim'
+NeoBundle 'justinmk/vim-sneak'
+NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'christoomey/vim-tmux-navigator'
+" other
+NeoBundle 'vimwiki/vimwiki'
+" End Plugins----------------------------
 
 
 call neobundle#end()
 filetype plugin indent on
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.ZZZZ
+" ask to install plugins at vim startup
 NeoBundleCheck
+" End NeoBundle Scripts -----------------
 
 
-""" Plugin Configurations
-" deoplete
+" Airline Configuration -----------------
+let g:airline#extensions#tmuxline#enabled = 1
+
+" Deoplete Configuration ----------------
 let g:deoplete#enable_at_startup=1
 
-" vim-racer
+" NERDTree Configuration ----------------
+" open by deyault
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" auto delete buffer when file is deleted
+let NERDTreeAutoDeleteBuffer = 1
+" clean up the ui
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+" Racer Configuration -------------------
 set hidden
 let g:racer_cmd="racer"
 let $RUST_SRC_PATH="/usr/src/rust/src"
 
-" vimwiki
-hi VimwikiHeader1 ctermfg=091
-hi VimwikiHeader2 ctermfg=203
-hi VimwikiHeader3 ctermfg=049
+" VimWiki Configuration -----------------
+let g:vimwiki_list = [{
+    \ 'path': '$HOME/docs/wiki/',
+    \ 'template_path': '$HOME/docs/wiki/templates/',
+    \ 'template_default': 'default',
+    \ 'template_ext:': '.html',
+    \ 'autotoc': 1}]
+
+" syntax highlighting
+hi VimwikiHeader1 cterm=bold ctermfg=011
+hi VimwikiHeader2 cterm=bold ctermfg=024
+hi VimwikiHeader3 cterm=bold ctermfg=009
+hi VimwikiHeader4 cterm=bold ctermfg=000
 hi VimwikiLink ctermfg=037
 hi VimwikiListTodo ctermfg=077
 
-" airline
-let g:airline#extensions#tmuxline#enabled = 1
-
-""" NeoVim Configuration
-" Backup
+" NeoVim Configuration ------------------
+" backup
 set nobackup
 set nowb
 set noswapfile
 
-" Column Coloring
+" column coloring
 highlight ColorColumn ctermbg=235
 let &colorcolumn="80"
 
-" Folding
-"set foldmethod=syntax
+" keybindings
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
-" Keyboard Completion
+" keyboard completion
 set complete=.,w,b,u,t
 
-" Line Numbers
+" line numbers
 set number
 set relativenumber
 
-" Matching Brackets
+" matching brackets
 set showmatch
 
-" Searching
+" searching
 set ignorecase
 set smartcase
 
-" Tab Behavior
+" syntax highlighting
+highlight PreProc cterm=bold ctermfg=2
+highlight Identifier cterm=none ctermfg=3
+highlight Comment cterm=italic ctermfg=4
+syntax enable
+
+" tab behavior
 set expandtab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 
-" for html and php use 2
-autocmd BufNewFile,BufRead *.html setlocal tabstop=2 shiftwidth=2 softtabstop=2
-autocmd BufNewFile,BufRead *.php setlocal tabstop=2 shiftwidth=2 softtabstop=2
-
-" Tab completion
+" tab completion
 set wildmode=list:longest,list:full
 function! InsertTabWrapper()
     let col = col('.') - 1
@@ -113,18 +141,3 @@ function! InsertTabWrapper()
 endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <S-Tab> <c-n>
-
-" Colors
-"set background=dark
-"highlight Comment ctermfg=240
-"highlight Statement ctermfg=130
-"highlight PreProc ctermfg=15
-syntax enable
-
-
-""" Key Remaps
-" Use Ctrl-* instead of Ctrl-w + * for split navigation
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
