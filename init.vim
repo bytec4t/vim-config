@@ -32,7 +32,7 @@ NeoBundle 'StanAngeloff/php.vim'
 NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'racer-rust/vim-racer'
 " workflow
-NeoBundle 'Shougo/deoplete.nvim'
+"NeoBundle 'Shougo/deoplete.nvim'
 NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'vim-airline/vim-airline'
@@ -73,8 +73,8 @@ let $RUST_SRC_PATH="/usr/src/rust/src"
 
 " VimWiki Configuration -----------------
 let g:vimwiki_list = [{
-    \ 'path': '$HOME/docs/wiki/',
-    \ 'template_path': '$HOME/docs/wiki/templates/',
+            \ 'path': '$HOME/doc/wiki/',
+    \ 'template_path': '$HOME/doc/wiki/templates/',
     \ 'template_default': 'default',
     \ 'template_ext:': '.html',
     \ 'autotoc': 1}]
@@ -125,6 +125,7 @@ set showmatch
 " searching
 set ignorecase
 set smartcase
+nnoremap <silent> <esc> :noh<cr><esc>
 
 " syntax highlighting
 highlight PreProc cterm=bold ctermfg=2
