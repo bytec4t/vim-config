@@ -34,7 +34,9 @@ NeoBundle 'racer-rust/vim-racer'
 " workflow
 "NeoBundle 'Shougo/deoplete.nvim'
 NeoBundle 'justinmk/vim-sneak'
-NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'rbgrouleff/bclose.vim'
+NeoBundle 'francoiscabrol/ranger.vim'
+"NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'vim-airline/vim-airline'
 NeoBundle 'christoomey/vim-tmux-navigator'
 " other
