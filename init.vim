@@ -36,7 +36,6 @@ NeoBundle 'racer-rust/vim-racer'
 NeoBundle 'justinmk/vim-sneak'
 NeoBundle 'rbgrouleff/bclose.vim'
 NeoBundle 'francoiscabrol/ranger.vim'
-"NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'vim-airline/vim-airline'
 NeoBundle 'christoomey/vim-tmux-navigator'
 " other
@@ -57,16 +56,6 @@ let g:airline#extensions#tmuxline#enabled = 1
 
 " Deoplete Configuration ----------------
 let g:deoplete#enable_at_startup=1
-
-" NERDTree Configuration ----------------
-" open by deyault
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" auto delete buffer when file is deleted
-let NERDTreeAutoDeleteBuffer = 1
-" clean up the ui
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
 
 " Racer Configuration -------------------
 set hidden
