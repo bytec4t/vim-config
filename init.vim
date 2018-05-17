@@ -1,68 +1,117 @@
-" NeoBundle Scripts------------------------
-if has('vim_starting')
-  set runtimepath+=~/.config/nvim/bundle/neobundle.vim/
-  set runtimepath+=~/.config/nvim/
+"                       Daylen's NeoVim Configuration
+"
+" Permission granted to do whatever the hell you want with this.
+
+
+" --- Dein Plugin Manager ---
+
+" Make sure `nocompatible` is set since Dein requires it.
+if &compatible
+    set nocompatible
 endif
 
-let neobundle_readme=expand('~/.config/nvim/bundle/neobundle.vim/README.md')
+" Path to exec for Dein plugin manager.
+set runtimepath+=~/.config/nvim/bundles/dein/repos/github.com/Shougo/dein.vim
 
-if !filereadable(neobundle_readme)
-  echo "Installing NeoBundle..."
-  echo ""
-  silent !mkdir -p ~/.config/nvim/bundle
-  silent !git clone https://github.com/Shougo/neobundle.vim ~/.config/nvim/bundle/neobundle.vim/
-  let g:not_finish_neobundle = "yes"
+if dein#load_state('~/.config/nvim/bundles/dein')
+    call dein#begin('~/.config/nvim/bundles/dein')
+
+    call dein#add('~/.config/nvim/bundles/dein')
+
+    " Deoplete completions
+    call dein#add('Shougo/deoplete.nvim')
+    if !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+    " Completions plugins
+    call dein#add('Shougo/neco-syntax') " General syntax completions
+    call dein#add('sebastianmarkow/deoplete-rust') " Rust completions
+    call dein#add('slashmili/alchemist.vim') " Elixir completions
+    call dein#add('pbogut/deoplete-elm') " Elm completions
+    call dein#add('carlitux/deoplete-ternjs') " JavaScript completions
+    call dein#add('SevereOverfl0w/deoplete-github') " Github completions
+    call dein#add('wellle/tmux-complete.vim') " Tmux pane completions
+
+    " Syntax highlighting and linting
+    call dein#add('vim-syntastic/syntastic')
+    call dein#add('elixir-lang/vim-elixir')
+    call dein#add('ElmCast/elm-vim')
+    call dein#add('cespare/vim-toml')
+    call dein#add('lervag/vimtex')
+    call dein#add('pangloss/vim-javascript')
+    call dein#add('LnL7/vim-nix')
+    call dein#add('rust-lang/rust.vim')
+    call dein#add('pangloss/vim-javascript')
+
+    " Short-medium range navigation
+    call dein#add('justinmk/vim-sneak')
+
+    " Git wrapper for evoking Git commands within Vim
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('tpope/vim-rhubarb')
+
+    " Filetree browser
+    call dein#add('scrooloose/nerdtree')
+    call dein#add('Xuyuanp/nerdtree-git-plugin')
+
+    " Status/tabline
+    call dein#add('vim-airline/vim-airline')
+
+    " Vimwiki
+    call dein#add('vimwiki/vimwiki')
+
+    call dein#end()
+    call dein#save_state()
 endif
 
-call neobundle#begin(expand('$HOME/.config/nvim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
 
-" Plugins---------------------------------
-" elixir
-NeoBundle 'slashmili/alchemist.vim'
-NeoBundle 'elixir-lang/vim-elixir'
-" elm
-NeoBundle 'ElmCast/elm-vim'
-" markup
-NeoBundle 'cespare/vim-toml'
-NeoBundle 'lervag/vimtex'
-" php
-NeoBundle 'StanAngeloff/php.vim'
-" rust
-NeoBundle 'rust-lang/rust.vim'
-NeoBundle 'racer-rust/vim-racer'
-" workflow
-"NeoBundle 'Shougo/deoplete.nvim'
-NeoBundle 'justinmk/vim-sneak'
-NeoBundle 'rbgrouleff/bclose.vim'
-NeoBundle 'francoiscabrol/ranger.vim'
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'christoomey/vim-tmux-navigator'
-" other
-NeoBundle 'vimwiki/vimwiki'
-" End Plugins----------------------------
+" Check if there are any packages needing to be installed and install them
+" at startup.
+if dein#check_install()
+  call dein#install()
+endif
 
 
-call neobundle#end()
-filetype plugin indent on
+" --- Plugin Configuration ---
 
-" ask to install plugins at vim startup
-NeoBundleCheck
-" End NeoBundle Scripts -----------------
+" Enable Deoplete at startup
+let g:deoplete#enable_at_startup = 1
+
+" Set completion sources for Deoplete
+let g:deoplete#sources#rust#racer_binary = 'which racer'
+let g:deoplete#sources#rust#show_duplicates = 1
+let g:deoplete#sources#ternjs#tern_bin = 'which tern'
+let g:deoplete#sources#ternjs#timeout = 1
+
+" Remove the tmux-complete trigger since we are using Deoplete
+let g:tmuxcomplete#trigger = ''
 
 
 " Airline Configuration -----------------
 let g:airline#extensions#tmuxline#enabled = 1
 
-" Deoplete Configuration ----------------
-let g:deoplete#enable_at_startup=1
+" NERDTree Configuration ----------------
+map \f :NERDTreeToggle<CR>
 
-" Racer Configuration -------------------
-set hidden
-let g:racer_cmd="racer"
-let $RUST_SRC_PATH="/usr/src/rust/src"
 
-" VimWiki Configuration -----------------
+
+" Syntastic Configuration
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" Syntastic checkers to use.
+let g:syntastic_enable_elixir_checker = 1
+let g:syntastic_elixir_checkers = ["elixir"]
+let g:syntastic_javascript_checkers = ["jshint"]
+
+" VimWiki Configuration
 let g:vimwiki_list = [{
             \ 'path': '$HOME/doc/wiki/',
     \ 'template_path': '$HOME/doc/wiki/templates/',
@@ -78,8 +127,27 @@ hi VimwikiHeader4 cterm=bold ctermfg=000
 hi VimwikiLink ctermfg=037
 hi VimwikiListTodo ctermfg=077
 
-" NeoVim Configuration ------------------
-" alias
+
+
+" --- NeoVim Configuration ---
+
+
+" Detect filetypes and load plugins based off those types. Also set indent
+" based off the filetype.
+filetype plugin indent on
+
+" Enable syntax highlighting.
+syntax enable
+
+
+" Sets buffers to be hidden rather than closed. This way, when a new buffer is
+" open with `:e` or NerdTree then the current buffer is not forced to be
+" saved.
+set hidden
+
+
+" Creates an alias for the save commands since I have a tendency to type a
+" capital `w`.
 fun! SetupCommandAlias(from, to)
     exec 'cnoreabbrev <expr> '.a:from
                 \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
@@ -88,20 +156,44 @@ endfun
 call SetupCommandAlias("W", "w")
 call SetupCommandAlias("Wa", "wa")
 
-" backup
+
+" We don't need any of these built-in backup measures or swaps on a modern
+" computer.
 set nobackup
 set nowb
 set noswapfile
+
+
+" Set the shell to Bash since Fish (what I use) isn't POSIX compliant
+set shell=bash
+
 
 " column coloring
 highlight ColorColumn ctermbg=235
 let &colorcolumn="80"
 
-" keybindings
+
+" Easy window navigation by removing the need for `c-w`.
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+
+
+" Remap `;` to `:` to avoid going into ex mode. Use `\;` to go into ex mode
+" instead.
+nnoremap ; :
+nnoremap <leader>; ;
+
+
+" Highlight whitespaces.
+set list
+set listchars=tab:>•,trail:•,extends:#,nbsp:•
+
+
+" Enable mouse support.
+set mouse=a
+
 
 " keyboard completion
 set complete=.,w,b,u,t
@@ -132,13 +224,13 @@ set tabstop=4
 
 " tab completion
 set wildmode=list:longest,list:full
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <S-Tab> <c-n>
+"function! InsertTabWrapper()
+"    let col = col('.') - 1
+"    if !col || getline('.')[col - 1] !~ '\k'
+"        return "\<tab>"
+"    else
+"        return "\<c-p>"
+"    endif
+"endfunction
+"inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+"inoremap <S-Tab> <c-n>
