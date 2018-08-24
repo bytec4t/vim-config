@@ -30,7 +30,6 @@ if dein#load_state('~/.config/nvim/bundles/dein')
     call dein#add('slashmili/alchemist.vim') " Elixir completions
     call dein#add('pbogut/deoplete-elm') " Elm completions
     call dein#add('carlitux/deoplete-ternjs') " JavaScript completions
-    call dein#add('SevereOverfl0w/deoplete-github') " Github completions
     call dein#add('wellle/tmux-complete.vim') " Tmux pane completions
 
     " Syntax highlighting and linting
@@ -43,6 +42,12 @@ if dein#load_state('~/.config/nvim/bundles/dein')
     call dein#add('LnL7/vim-nix')
     call dein#add('rust-lang/rust.vim')
     call dein#add('pangloss/vim-javascript')
+
+    " Elixir formatting
+    call dein#add('mhinz/vim-mix-format')
+
+    " HTML/XML (and friends) formatting
+    call dein#add('tpope/vim-ragtag')
 
     " Short-medium range navigation
     call dein#add('justinmk/vim-sneak')
@@ -57,9 +62,28 @@ if dein#load_state('~/.config/nvim/bundles/dein')
 
     " Status/tabline
     call dein#add('vim-airline/vim-airline')
+    call dein#add('vim-airline/vim-airline-themes')
 
     " Vimwiki
     call dein#add('vimwiki/vimwiki')
+
+    " Easy editting of parentheses, brackets, quotes, markup, etc.
+    call dein#add('tpope/vim-surround')
+
+    " Plugin repetition with "."
+    call dein#add('tpope/vim-repeat')
+
+    " Distraction free mode
+    call dein#add('junegunn/goyo.vim')
+
+    " Brighten the lines around the current line.
+    call dein#add('junegunn/limelight.vim')
+
+    " Colorscheme
+    call dein#add('arcticicestudio/nord-vim')
+
+    " Autoclose characters that come in pairs (ex. `(` becomes `()`)
+    call dein#add('townk/vim-autoclose')
 
     call dein#end()
     call dein#save_state()
@@ -90,11 +114,31 @@ let g:tmuxcomplete#trigger = ''
 
 " Airline Configuration -----------------
 let g:airline#extensions#tmuxline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='deus'
+
+" Goyo configuration
+let g:goyo_width = 82 " because I use line numbers
+
+function! s:goyo_enter()
+    set number
+    set relativenumber
+    Limelight
+endfunction
+
+function! s:goyo_leave()
+    Limelight!
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" Mix Format
+let g:mix_format_on_save = 1
+let g:mix_format_options = '--check-equivalent'
 
 " NERDTree Configuration ----------------
 map \f :NERDTreeToggle<CR>
-
-
 
 " Syntastic Configuration
 set statusline+=%#warningmsg#
@@ -118,14 +162,6 @@ let g:vimwiki_list = [{
     \ 'template_default': 'default',
     \ 'template_ext:': '.html',
     \ 'autotoc': 1}]
-
-" syntax highlighting
-hi VimwikiHeader1 cterm=bold ctermfg=011
-hi VimwikiHeader2 cterm=bold ctermfg=024
-hi VimwikiHeader3 cterm=bold ctermfg=009
-hi VimwikiHeader4 cterm=bold ctermfg=000
-hi VimwikiLink ctermfg=037
-hi VimwikiListTodo ctermfg=077
 
 
 
@@ -168,10 +204,18 @@ set noswapfile
 set shell=bash
 
 
-" column coloring
-highlight ColorColumn ctermbg=235
-let &colorcolumn="80"
+" Nord colorscheme configuration
+set termguicolors
+let g:nord_italic = 1
+let g:nord_underline = 1
+let g:nord_italic_comments = 1
+let g:nord_comment_brightness = 10
+let g:nord_uniform_diff_background = 1
+colorscheme nord
 
+" column coloring
+"highlight ColorColumn ctermbg=235
+let &colorcolumn="81"
 
 " Easy window navigation by removing the need for `c-w`.
 nnoremap <c-j> <c-w>j
@@ -180,19 +224,26 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 
-" Remap `;` to `:` to avoid going into ex mode. Use `\;` to go into ex mode
-" instead.
-nnoremap ; :
-nnoremap <leader>; ;
-
-
 " Highlight whitespaces.
 set list
 set listchars=tab:>•,trail:•,extends:#,nbsp:•
 
 
-" Enable mouse support.
-set mouse=a
+" General tab behavior
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+
+
+" Filetype specific tabs
+autocmd Filetype html setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype eelixir setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype elixir setlocal ts=2 sts=2 sw=2 expandtab
+
+
+" No wrapping on VimWiki files
+autocmd Filetype vimwiki setlocal nowrap
 
 
 " keyboard completion
@@ -211,16 +262,10 @@ set smartcase
 nnoremap <silent> <esc> :noh<cr><esc>
 
 " syntax highlighting
-highlight PreProc cterm=bold ctermfg=2
-highlight Identifier cterm=none ctermfg=3
-highlight Comment cterm=italic ctermfg=4
-syntax enable
-
-" tab behavior
-set expandtab
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
+"highlight PreProc cterm=bold ctermfg=2
+"highlight Identifier cterm=none ctermfg=3
+"highlight Comment cterm=italic ctermfg=4
+set background=dark
 
 " tab completion
 set wildmode=list:longest,list:full
